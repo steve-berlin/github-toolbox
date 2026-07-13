@@ -18,6 +18,11 @@
 # The --coauthor / --map emails must be verified emails on the GitHub account,
 # otherwise the contributor graph will not link the commits to that user.
 
+# Re-exec under bash when started as `sh rewrite-contributors.sh`. Must stay
+# above `set -o pipefail` and the array assignments below — both are bashisms
+# that dash dies on before any runtime check could report something useful.
+[ -n "${BASH_VERSION:-}" ] || exec bash "$0" "$@"
+
 set -euo pipefail
 
 DROP=() MAP=() COAUTHOR="" APPLY=0
